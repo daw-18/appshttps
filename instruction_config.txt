@@ -1,4 +1,4 @@
-rules for writing folders:
+# rules for writing folders:
 1. the file must contain 3 separated fields \ n folder name, subdirectories,files
 2.new foldey divide / t
 3. Subdirectories and files should be written after the decimal point 
