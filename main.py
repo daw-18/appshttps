@@ -35,7 +35,8 @@ def dirapp_permissions(fail_permissions):#swap config fail
 
 def dirapp_ospath(globpath):
 	for dirapp in os.walk(os.getcwd()):
-		globpath[dirapp[0][19:]]=dirapp[2] #patch=[fails]
+		l=len(os.getcwd())+1#+\
+		globpath[dirapp[0][l:]]=dirapp[2] #patch=[fails]
 
 def dirapp_wpath(wglobwpath):
 	with open(wirtual_path_name,'r') as f: #error invalid file
