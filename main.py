@@ -4,24 +4,16 @@ import os
 fail_permissions={}
 globpath={}
 wglobpath={}
-sqlglbpatch={}
-ftpglobpatch={}
-wirtual_path_name='wirtual.config'#deleit
+orginal_path=['F:\\py\\appshttps\\wp\\','F:\\py\\appshttps\\ws\\']
+wirtual_path_name='F:\\py\\appshttps\\wirtual.config'#deleit
 
 #def pathsplit():
 #def path_add_wirtual():
 
-def writewpath(fails):
-	if 'p' in fail_permissions[fails]:
-		with open('wp\\'+fails,'r') as f:
-			ret=f.read()
-		return ret
-
-
-def writepath(fails,data):
+def writepath(fails,data,orgn):
 	if 'g' in fail_permissions[fails]:
 
-		with open('ws\\'+data,'r') as f:
+		with open(orginal_path[orgn]+data,'r') as f:
 			ret=f.read()
 		return ret
 
@@ -31,7 +23,7 @@ def dirapp_permissions(fail_permissions):#swap config fail
 			fail_permissions[z]='g'
 	for i in wglobpath:
 		for z in wglobpath[i]:
-			fail_permissions[z]='p'
+			fail_permissions[z]='pg'
 
 def dirapp_ospath(globpath):
 	for dirapp in os.walk(os.getcwd()):
@@ -54,10 +46,10 @@ def dirapp():
 
 	#arrays wirtaldate=[]
 
-	os.chdir('ws')
+	os.chdir(orginal_path[1])
 	dirapp_ospath(globpath)
 
-	os.chdir('..')
+	os.chdir(orginal_path[0])
 	dirapp_wpath(wglobpath)
 
 	dirapp_permissions(fail_permissions)
@@ -66,9 +58,9 @@ def path(data):
 	path,fails=os.path.split(data)#pathsplit(data)
 
 	if (path in globpath ) and (fails in globpath[path]):
-		return writepath(fails,data)
+		return writepath(fails,data,1)
 	elif (path in wglobpath) and (fails in wglobpath[path]):
-		return writewpath(fails)
+		return writepath(fails,fails,0)
 	else:return globpath
 	
 
