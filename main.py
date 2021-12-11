@@ -62,7 +62,7 @@ def path(data):
 		return writepath(fails,data,1)
 	elif (path in wglobpath) and (fails in wglobpath[path]):
 		return writepath(fails,fails,0)
-	else:return globpath
+	else:return "brak"
 	
 
 
