@@ -49,10 +49,11 @@ def dirapp():
 	os.chdir(orginal_path[1])
 	dirapp_ospath(globpath)
 
-	os.chdir(orginal_path[0])
 	dirapp_wpath(wglobpath)
 
 	dirapp_permissions(fail_permissions)
+
+	os.chdir('..')#go to home
 
 def path(data):
 	path,fails=os.path.split(data)#pathsplit(data)
