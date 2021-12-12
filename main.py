@@ -1,4 +1,5 @@
 import os
+import socket
 
 
 fail_permissions={}
@@ -6,14 +7,74 @@ globpath={}
 wglobpath={}
 orginal_path=['F:\\py\\appshttps\\wp\\','F:\\py\\appshttps\\ws\\']
 wirtual_path_name='F:\\py\\appshttps\\wirtual.config'#deleit
-
+start_http='index.txt'
 #def pathsplit():
 #def path_add_wirtual():
+
+def page_GET(conn,data):
+	conn.sendall(b'HTTP/1.1 200 \r\n')
+	conn.sendall(bytes("Content-Typle application/binary \r\n",'UTF-8'))#abgreit
+	conn.sendall(bytes("Content-Length "+str(len(data))+" \r\n",'UTF-8'))
+	conn.sendall(b'Server:apis \r\n')
+	conn.sendall(b'\r\n')
+	conn.sendall(data)
+
+def recvuntil(sock,txt): #time
+	d=b""
+	i=0
+
+	while i!=len(txt):
+		dnow=sock.recv(1)
+		if len(dnow)==0:break#try
+
+		if dnow[0]==txt[i]:i=i+1
+		else :i=0
+		
+		d+=dnow
+
+	return d
+
+def type_request(sock):
+	d=recvuntil(sock,b'/')
+
+	if d==b'GET /':
+		return d+recvuntil(sock,b'\r\n\r\n')
+
+	elif d==b'POST /' or d==b'PUT /':
+		d=d+recvuntil(sock,b'Content-Length:')
+		g=sock.recv(3)
+		d=d+g
+		g=int(g)
+		d=d+recvuntil(sock,b'\r\n\r\n')
+		d=d+sock.recv(g)
+		return d
+
+	else:return 0#try
+
+def socket_konectiwe():#UBGREIT
+	s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+	s.bind(('127.0.0.1',8080))
+	s.listen(3)
+	while True:
+		try:
+			conn,addr=s.accept()# data ip
+			data=type_request(conn)
+
+			if not data:break#time
+
+			data=data.decode('UTF-8')
+			data=data.split(' ')
+			data=path(data[1][1:])#deleit /
+			page_GET(conn,data)
+
+		finally:
+			conn.close()
+	return 0
 
 def writepath(fails,data,orgn):
 	if 'g' in fail_permissions[fails]:
 
-		with open(orginal_path[orgn]+data,'r') as f:
+		with open(orginal_path[orgn]+data,'rb') as f:
 			ret=f.read()
 		return ret
 
@@ -58,21 +119,22 @@ def dirapp():
 def path(data):
 	path,fails=os.path.split(data)#pathsplit(data)
 
-	if (path in globpath ) and (fails in globpath[path]):
+	if (len(path)==0) and (len(fails)==0) :
+		return writepath(start_http,start_http,0)#???????
+	elif (path in globpath ) and (fails in globpath[path]):
 		return writepath(fails,data,1)
 	elif (path in wglobpath) and (fails in wglobpath[path]):
 		return writepath(fails,fails,0)
-	else:return "brak"
+	else:return b"brak"
 	
-
-
 
 def main():
 
 	#socet
 	#funkcja
 	dirapp()#os
-	print(path('test\\test.txt'))
+	socket_konectiwe()
+	#path('test\\test.txt')
 
 if __name__ == '__main__':
 	main()
