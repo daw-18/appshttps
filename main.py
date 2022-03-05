@@ -8,6 +8,7 @@ wglobpath={}
 orginal_path=['F:\\py\\appshttps\\wp\\','F:\\py\\appshttps\\ws\\']
 wirtual_path_name='F:\\py\\appshttps\\wirtual.config'#deleit
 start_http='index.txt'
+
 #def pathsplit():
 #def path_add_wirtual():
 
@@ -27,7 +28,7 @@ def recvuntil(sock,txt): #time
 		dnow=sock.recv(1)
 		if len(dnow)==0:break#try
 
-		if dnow[0]==txt[i]:i=i+1
+		if dnow[0]==txt[i]:i=i+1#ubgreit
 		else :i=0
 		
 		d+=dnow
@@ -130,12 +131,10 @@ def path(data):
 
 def main():
 
-	#socet
-	#funkcja
-	dirapp()#os
+	dirapp()
 	socket_konectiwe()
-	#path('test\\test.txt')
 
 if __name__ == '__main__':
 	main()
-	#try erros,reset aplication endsocket
+	#try erros,reset aplication 
+	#analis
